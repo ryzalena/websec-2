@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+# Безопасность веб-приложений. Лабораторка №2
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Схема сдачи
 
-## Available Scripts
+1. Получить задание
+2. Сделать форк данного репозитория
+3. Выполнить задание согласно полученному варианту
+4. Сделать PR (pull request) в данный репозиторий 
+6. Исправить замечания после code review
+7. Получить approve 
+8. Прийти на занятие и защитить работу
 
-In the project directory, you can run:
+Что нужно проявить в работе:
+- умение разработать завершенное целое веб-приложение, с клиентской и серверной частями (допустимы открытые АПИ)
+- навыки верстки на html в объеме 200-300 тегов
+- навыки применения css для лейаута и стилизации, желательно с адаптацией к мобилке
+- использование jQuery или аналогичных JS-фреймворков
+- динамическая подгрузка контента
+- динамическое изменение DOM и CSSOM
 
-### `npm start`
+Если у вас своя идея по заданию, то расскажите, обсудим и подкорректирую.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Вариант 1. Расписания
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Сделать аналог раздела https://ssau.ru/rasp?groupId=531030143
 
-### `npm test`
+Какие нужны возможности:
+- справочники групп, табличные данные по расписаниям добывать с настоящего сайта на серверной стороне приложения
+- в клиентскую часть подгружать эти сведения динамически по JSON-API
+- обеспечить возможность смотреть расписания в разрезе группы или препода
+- обеспечить возможность выбора учебной недели (по умолчанию выбирается автоматически)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Вариант 2. Аналог Прибывалки для электричек
 
-### `npm run build`
+Сделать веб-версию Прибывалки, только для электричек
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Какие нужны возможности:
+- находить желаемую ЖД-станцию поиском по названию или по карте
+- отображать расписания всех проходящих поездов через выбранную станцию
+- отображать расписания для поездов между двумя станциями
+- работа через АПИ Яндекс.Расписаний https://yandex.ru/dev/rasp/doc/ru/ (доступ получите сами)
+- хорошая работа в условиях экрана смартфона
+- бонус: функция "любимых остановок"
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Вариант 3. Гонки за звездочками
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Реализовать многопользовательскую аркадную игру следующей механики.
+Игровое поле - прямоугольник на странице. 
+Каждый игрок управляет машинкой с помощью четырех стрелок или WASD. Нажатие на стрелку придает ускорение в определенную сторону, общая скорость машинки ограничена какой-то константой. Движение машинки подчинается законам механики, при соударении с границами поля останавливается или упруго отскакивает. Соударение с другими машинками можно тоже сделать.
+В каждый момент времени в случайном месте поля есть "звездочка", задача игроков - собирать их. Как только одна из машинок приближается к звездочке ближе какого-то радиуса, она считается взятой, и появляется следующая звездочка в случайном месте игрового поля.
+Если кто помнит, это аналог Blood Bowl из GTA SA.
 
-### `npm run eject`
+Какие нужны возможности:
+- одновременная игра до 10 игроков на одном поле (каждая машинка со своим цветом и именем игрока)
+- плавное отображение движения игроков
+- передача данных через WebSocket 
+- защита от читерства
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
