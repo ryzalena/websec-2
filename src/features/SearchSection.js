@@ -93,7 +93,7 @@ const SearchSection = ({
 
           {selectedStation && (
             <div className="selected-info">
-              <span>Станция: <strong>{selectedStation.title}</strong></span>
+              <span><strong>{selectedStation.title}</strong></span>
               <button className="reset-btn" onClick={() => setSelectedStation(null)}>✕</button>
             </div>
           )}

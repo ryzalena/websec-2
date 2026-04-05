@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { stationsList } from '../entities/stations';
 import SearchSection from '../features/SearchSection';
 import StationMap from '../features/StationMap';
-import { formatTime, formatDuration, getTrainStatus } from '../shared/helpers';
+import { formatTime, formatDuration, getTrainStatus, fetchStationsFromApi } from '../shared/helpers';
 
 const App = () => {
-  const [stations, setStations] = useState(stationsList);
+  const [stations, setStations] = useState([]);
+  const [loadingStations, setLoadingStations] = useState(true);
+  const [stationsError, setStationsError] = useState('');
   const [filteredStations, setFilteredStations] = useState([]);
   const [filteredFromStations, setFilteredFromStations] = useState([]);
   const [filteredToStations, setFilteredToStations] = useState([]);
@@ -24,6 +25,8 @@ const App = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [noRoutesMessage, setNoRoutesMessage] = useState('');
 
+  const PROXY_URL = process.env.REACT_APP_PROXY_URL || 'http://localhost:3001/api/rasp';
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -31,9 +34,24 @@ const App = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const PROXY_URL = 'http://localhost:3001/api/rasp';
+  useEffect(() => {
+    const loadStations = async () => {
+      setLoadingStations(true);
+      setStationsError('');
+      try {
+        const stationsData = await fetchStationsFromApi(PROXY_URL);
+        setStations(stationsData);
+      } catch (error) {
+        setStationsError('Не удалось загрузить список станций. Проверьте прокси-сервер.');
+        console.error(error);
+      } finally {
+        setLoadingStations(false);
+      }
+    };
+    loadStations();
+  }, [PROXY_URL]);
 
-  const filterStations = (query, stationsList) => {
+  const filterStationsList = (query, stationsList) => {
     if (query.length > 1) {
       return stationsList.filter(station => 
         station.title.toLowerCase().includes(query.toLowerCase())
@@ -43,33 +61,33 @@ const App = () => {
   };
 
   const updateFilteredStations = (query, setFilteredFunction) => {
-    const filtered = filterStations(query, stations);
+    const filtered = filterStationsList(query, stations);
     setFilteredFunction(filtered);
   };
 
   useEffect(() => {
-    if (mode === 'single') {
+    if (mode === 'single' && !loadingStations && stations.length > 0) {
       updateFilteredStations(searchQuery, setFilteredStations);
     } else {
       setFilteredStations([]);
     }
-  }, [searchQuery, stations, mode]);
+  }, [searchQuery, stations, mode, loadingStations]);
 
   useEffect(() => {
-    if (mode === 'between') {
+    if (mode === 'between' && !loadingStations && stations.length > 0) {
       updateFilteredStations(fromSearchQuery, setFilteredFromStations);
     } else {
       setFilteredFromStations([]);
     }
-  }, [fromSearchQuery, stations, mode]);
+  }, [fromSearchQuery, stations, mode, loadingStations]);
 
   useEffect(() => {
-    if (mode === 'between') {
+    if (mode === 'between' && !loadingStations && stations.length > 0) {
       updateFilteredStations(toSearchQuery, setFilteredToStations);
     } else {
       setFilteredToStations([]);
     }
-  }, [toSearchQuery, stations, mode]);
+  }, [toSearchQuery, stations, mode, loadingStations]);
 
   const selectStation = (station, target) => {
     if (target === 'single') {
@@ -194,10 +212,39 @@ const App = () => {
     }
   };
 
+  if (loadingStations) {
+    return (
+      <div className="app">
+        <header className="header">
+          <h1>Прибывалка: Электрички</h1>
+        </header>
+        <main className="main">
+          <div className="loader">Загрузка станций...</div>
+        </main>
+      </div>
+    );
+  }
+
+  if (stationsError) {
+    return (
+      <div className="app">
+        <header className="header">
+          <h1>Прибывалка: Электрички</h1>
+        </header>
+        <main className="main">
+          <div className="error-message">
+            <p>{stationsError}</p>
+            <p className="hint">Убедитесь, что прокси-сервер запущен: node server.js</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="app">
       <header className="header">
-        <h1>Прибывалка63: Электрички</h1>
+        <h1>Прибывалка: Электрички</h1>
         <div className="mode-toggle">
           <button 
             className={mode === 'single' ? 'active' : ''}
